@@ -48,4 +48,20 @@ app.UseCors("AllowAngular");
 // 4. Map Controller Routes
 app.MapControllers();
 
+// Data Seeding: Puts some defualt data into the in-memory database when the application starts. This is useful for testing and development purposes, so you have some initial data to work with when you run the application for the first time.
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    // If there are no tasks in the database, add some default tasks
+    if (!context.Tasks.Any())
+    {
+        context.Tasks.AddRange(
+            new TaskItem { Title = "Finish HCL Hackathon", Description = "Complete the .NET and Angular integration.", IsCompleted = true },
+            new TaskItem { Title = "Prepare Presentation", Description = "Create a demo video or PPT for the judges.", IsCompleted = false }
+        );
+        context.SaveChanges();
+    }
+}
+
 app.Run();
