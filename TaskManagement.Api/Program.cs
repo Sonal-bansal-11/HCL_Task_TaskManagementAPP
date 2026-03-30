@@ -13,6 +13,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Register Repository for Dependency Injection
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
+// Register Service
+builder.Services.AddScoped<ITaskService, TaskService>();
+
 // 3. API Documentation Setup
 builder.Services.AddOpenApi();
 
