@@ -1,1 +1,47 @@
-<p>task-form works!</p>
+<div class="row mt-5">
+  <div class="col-md-6 offset-md-3">
+    <div class="card shadow-sm">
+      <div class="card-header text-white" [ngClass]="isEditMode ? 'bg-info' : 'bg-primary'">
+        <h4 class="mb-0">{{ isEditMode ? 'Edit Task' : 'Add New Task' }}</h4>
+      </div>
+      
+      <div class="card-body">
+        <form (ngSubmit)="onSubmit()" #taskForm="ngForm">
+          
+          <div class="mb-3">
+            <label for="title" class="form-label">Task Title <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="title" name="title" 
+                   [(ngModel)]="task.title" required #title="ngModel" placeholder="e.g., Complete HCL Project">
+            
+            <div *ngIf="title.invalid && title.touched" class="text-danger small mt-1">
+              Task title is required.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3"
+                      [(ngModel)]="task.description" placeholder="Add some details..."></textarea>
+          </div>
+
+          <div class="mb-4 form-check" *ngIf="isEditMode">
+            <input type="checkbox" class="form-check-input" id="isCompleted" name="isCompleted"
+                   [(ngModel)]="task.isCompleted">
+            <label class="form-check-label" for="isCompleted">
+              Mark as Completed
+            </label>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2">
+            <a routerLink="/" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn" [ngClass]="isEditMode ? 'btn-info text-white' : 'btn-primary'" 
+                    [disabled]="taskForm.invalid">
+              {{ isEditMode ? 'Update Task' : 'Save Task' }}
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
